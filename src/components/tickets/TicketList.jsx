@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getAllTickets } from "../../services/ticketService";
 import "./Tickets.css"
 import { Ticket } from "./Ticket";
+import { TicketFilterBar } from "./TicketFilterBar";
 
 export const TicketList = () => {
   const [allTickets, setAllTickets] = useState([]);
@@ -38,34 +39,14 @@ export const TicketList = () => {
   return (
     <div className="tickets-container">
       <h2>Tickets</h2>
-      <div className="filter-bar">
-        <button
-          className="filter-btn btn-primary"
-          onClick={() => {
-            setShowEmergencyOnly(true);
-          }}
-        >
-          Emergency
-        </button>
-        <button
-          className="filter-btn btn-info"
-          onClick={() => {
-            setShowEmergencyOnly(false);
-          }}
-        >
-          Show All
-        </button>
-        <input
-          onChange={(event) => {setSearchTerm(event.target.value)}}
-          type="text"
-          placeholder="Search Tickets"
-          className="ticket-search"
-        />
-      </div>
+      <TicketFilterBar
+        setShowEmergencyOnly={setShowEmergencyOnly}
+        setSearchTerm={setSearchTerm}
+      />
       <article className="tickets">
         {filteredTickets.map((ticketObj) => {
           console.log(ticketObj);
-          return <Ticket ticket={ticketObj} key={ticketObj.id} name="Joe" />
+          return <Ticket ticket={ticketObj} key={ticketObj.id} />
         })}
       </article>
     </div>
