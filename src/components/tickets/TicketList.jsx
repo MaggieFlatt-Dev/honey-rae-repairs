@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAllTickets } from "../../services/ticketService";
-import "./Tickets.css"
+import "./Tickets.css";
 import { Ticket } from "./Ticket";
 import { TicketFilterBar } from "./TicketFilterBar";
 
@@ -8,7 +8,7 @@ export const TicketList = () => {
   const [allTickets, setAllTickets] = useState([]);
   const [showEmergencyOnly, setShowEmergencyOnly] = useState(false);
   const [filteredTickets, setFilteredTickets] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     getAllTickets().then((ticketsArray) => {
@@ -27,14 +27,13 @@ export const TicketList = () => {
       setFilteredTickets(allTickets);
     }
   }, [showEmergencyOnly, allTickets]); // When the dependency contains multiple state variables, the useEffect is      watching for any time any of the values change.
-  
+
   useEffect(() => {
-      const foundTickets = allTickets.filter(ticket =>
-        ticket.description.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      setFilteredTickets(foundTickets)
-  }, [searchTerm, allTickets])
-  
+    const foundTickets = allTickets.filter((ticket) =>
+      ticket.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredTickets(foundTickets);
+  }, [searchTerm, allTickets]);
 
   return (
     <div className="tickets-container">
@@ -46,7 +45,7 @@ export const TicketList = () => {
       <article className="tickets">
         {filteredTickets.map((ticketObj) => {
           console.log(ticketObj);
-          return <Ticket ticket={ticketObj} key={ticketObj.id} />
+          return <Ticket ticket={ticketObj} key={ticketObj.id} />;
         })}
       </article>
     </div>
