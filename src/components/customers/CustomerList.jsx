@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getNonStaffUsers } from "../../services/UserService";
 import "./Customers.css";
-import { User } from "../../users/User";
+import { User } from "../users/User";
 
 export const CustomerList = () => {
   const [customers, setCustomers] = useState([]);
