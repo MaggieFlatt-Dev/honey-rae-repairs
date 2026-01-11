@@ -4,8 +4,8 @@ import { getCustomerByUserId } from "../../services/customerService";
 import "./Customers.css"
 
 export const CustomerDetails = () => {
-  // /customer/3
-  // path="/customers/:customerId"
+  //  if we're at /customer/3
+  // set up path="/customers/:customerId"  key=customerId, value=3
   const [customer, setCustomer] = useState({});
   const { customerId } = useParams(); // returns { customerId: 3 }
 
