@@ -4,17 +4,20 @@ import "./Tickets.css";
 import { Ticket } from "./Ticket";
 import { TicketFilterBar } from "./TicketFilterBar";
 
-export const TicketList = () => {
+export const TicketList = ({ currentUser }) => {
   const [allTickets, setAllTickets] = useState([]);
   const [showEmergencyOnly, setShowEmergencyOnly] = useState(false);
   const [filteredTickets, setFilteredTickets] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
+  const getAndSetTickets = () => {
     getAllTickets().then((ticketsArray) => {
       setAllTickets(ticketsArray);
-      console.log("tickets set");
     });
+  };
+
+  useEffect(() => {
+    getAndSetTickets();
   }, []); //when array is empty it ONLY runs on initial render of component. Will run when value changes if something in array
 
   useEffect(() => {
@@ -45,7 +48,14 @@ export const TicketList = () => {
       <article className="tickets">
         {filteredTickets.map((ticketObj) => {
           console.log(ticketObj);
-          return <Ticket ticket={ticketObj} key={ticketObj.id} />;
+          return (
+            <Ticket
+              ticket={ticketObj}
+              currentUser={currentUser}
+              getAndSetTickets={getAndSetTickets}
+              key={ticketObj.id}
+            />
+          );
         })}
       </article>
     </div>
