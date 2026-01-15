@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getAllEmployees } from "../../services/employeeService";
-import { assignTicket, updateTicket } from "../../services/ticketService";
+import { assignTicket, deleteTicket, updateTicket } from "../../services/ticketService";
 
 export const Ticket = ({ ticket, currentUser, getAndSetTickets }) => {
   const [employees, setEmployees] = useState([]);
@@ -14,8 +14,8 @@ export const Ticket = ({ ticket, currentUser, getAndSetTickets }) => {
   // }, []);
 
   useEffect(() => {
-    getAllEmployees().then(setEmployees)
-  }, [])
+    getAllEmployees().then(setEmployees);
+  }, []);
 
   //search employees array and find the employee that matches the service ticket employee Id
   useEffect(() => {
@@ -42,7 +42,7 @@ export const Ticket = ({ ticket, currentUser, getAndSetTickets }) => {
     });
   };
 
-  //handleClose function 
+  //handleClose function
   const handleClose = () => {
     const closedTicket = {
       id: ticket.id,
@@ -50,12 +50,19 @@ export const Ticket = ({ ticket, currentUser, getAndSetTickets }) => {
       description: ticket.description,
       emergency: ticket.emergency,
       dateCompleted: new Date(),
-    }
+    };
 
     updateTicket(closedTicket).then(() => {
+      getAndSetTickets();
+    });
+  };
+
+  const handleDelete = () => {
+    deleteTicket(ticket.id).then(() => {
       getAndSetTickets()
-    })
-  }
+     })
+   }
+
 
   return (
     <section className="ticket">
@@ -84,10 +91,17 @@ export const Ticket = ({ ticket, currentUser, getAndSetTickets }) => {
           {/* If the logged ij user is thr assigned employee for the ticket and there is no dateCompleted, then a button to close the ticket should display*/}
           {assignedEmployee?.userId === currentUser.id &&
           !ticket.dateCompleted ? (
-            <button className="btn btn-warning" onClick={handleClose}>Close</button>
+            <button className="btn btn-warning" onClick={handleClose}>
+              Close
+            </button>
           ) : (
             ""
           )}
+          {!currentUser.isStaff ? (
+              <button className="btn btn-warning" onClick={handleDelete}>
+                Delete
+              </button>
+            ): ("")}
         </div>
       </footer>
     </section>
