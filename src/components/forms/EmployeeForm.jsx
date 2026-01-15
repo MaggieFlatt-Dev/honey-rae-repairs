@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import "./Form.css";
-import { getEmployeeByUserId, updateEmployee } from "../../services/employeeService";
-import { useNavigate } from "react-router-dom"; 
+import {
+  getEmployeeByUserId,
+  updateEmployee,
+} from "../../services/employeeService";
+import { useNavigate } from "react-router-dom";
 
 export const EmployeeForm = ({ currentUser }) => {
   const [employee, setEmployee] = useState({});
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     getEmployeeByUserId(currentUser.id).then((data) => {
@@ -17,20 +20,21 @@ export const EmployeeForm = ({ currentUser }) => {
 
   //function to save (handleSave)
   const handleSave = (event) => {
-    event.preventDefault()
-    console.log("clicked!")
+    event.preventDefault();
+    console.log("clicked!");
 
     const editedEmployee = {
       id: employee.id,
       specialty: employee.specialty,
       rate: employee.rate,
       userId: employee.userId,
-    }
+    };
+    
 
     updateEmployee(editedEmployee).then(() => {
-        navigate(`/employees/${currentUser.id}`)
-     })
-   }
+      navigate(`/employees/${currentUser.id}`);
+    });
+  };
 
   return (
     <form className="profile">
@@ -40,7 +44,7 @@ export const EmployeeForm = ({ currentUser }) => {
           <label>Specialty:</label>
           <input
             type="text"
-            value={employee.specialty}
+            value={employee.specialty || ""}
             onChange={(event) => {
               const copy = { ...employee };
               copy.specialty = event.target.value;
@@ -56,7 +60,7 @@ export const EmployeeForm = ({ currentUser }) => {
           <label>Hourly Rate:</label>
           <input
             type="number"
-            value={employee.rate}
+            value={employee.rate || ""}
             onChange={(event) => {
               const copy = { ...employee };
               copy.rate = event.target.value;
@@ -69,7 +73,9 @@ export const EmployeeForm = ({ currentUser }) => {
       </fieldset>
       <fieldset>
         <div className="form-group">
-          <button className="form-btn btn-primary" onClick={handleSave}>Save Profile</button>
+          <button className="form-btn btn-primary" onClick={handleSave}>
+            Save Profile
+          </button>
         </div>
       </fieldset>
     </form>
